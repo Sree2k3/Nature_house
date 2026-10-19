@@ -4,15 +4,40 @@ import crypto from 'crypto';
 import { query } from './db';
 import { MediaError } from './errors';
 
-// Configuration
-export const MEDIA_DIR = process.env.NATURE_HOUSE_MEDIA_DIR
-  ? path.resolve(process.cwd(), process.env.NATURE_HOUSE_MEDIA_DIR)
-  : path.resolve(process.cwd(), 'var/media');
+// Configuration: resolve media directory safely, with /tmp fallback for serverless environments (Vercel/AWS Lambda)
+function resolveMediaDir(): string {
+  const custom = process.env.NATURE_HOUSE_MEDIA_DIR;
+  if (custom) {
+    const customPath = path.resolve(process.cwd(), custom);
+    try {
+      if (!fs.existsSync(customPath)) fs.mkdirSync(customPath, { recursive: true });
+      return customPath;
+    } catch {
+      // Fallback
+    }
+  }
 
-// Ensure directory exists
-if (!fs.existsSync(MEDIA_DIR)) {
-  fs.mkdirSync(MEDIA_DIR, { recursive: true });
+  const defaultPath = path.resolve(process.cwd(), 'var/media');
+  try {
+    if (!fs.existsSync(defaultPath)) {
+      fs.mkdirSync(defaultPath, { recursive: true });
+    }
+    return defaultPath;
+  } catch {
+    // Read-only filesystem detected (e.g. AWS Lambda / Vercel Serverless)
+    const tmpPath = path.resolve('/tmp', 'nature-house-media');
+    try {
+      if (!fs.existsSync(tmpPath)) {
+        fs.mkdirSync(tmpPath, { recursive: true });
+      }
+      return tmpPath;
+    } catch {
+      return defaultPath;
+    }
+  }
 }
+
+export const MEDIA_DIR = resolveMediaDir();
 
 export interface StoredMedia {
   id: string;
