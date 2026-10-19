@@ -143,7 +143,14 @@ export default function AdminDashboardClient({
         body: JSON.stringify(data),
       });
       const result = await res.json();
-      if (!res.ok) throw new Error(result.error || 'Failed to save plant');
+      if (!res.ok) {
+        const errorMsg =
+          result?.error?.message ||
+          (typeof result?.error === 'string' ? result.error : null) ||
+          result?.message ||
+          'Failed to save plant';
+        throw new Error(errorMsg);
+      }
 
       if (isEdit) {
         setPlants((prev) =>
@@ -174,7 +181,14 @@ export default function AdminDashboardClient({
         body: JSON.stringify(data),
       });
       const result = await res.json();
-      if (!res.ok) throw new Error(result.error || 'Failed to save aquarium');
+      if (!res.ok) {
+        const errorMsg =
+          result?.error?.message ||
+          (typeof result?.error === 'string' ? result.error : null) ||
+          result?.message ||
+          'Failed to save aquarium';
+        throw new Error(errorMsg);
+      }
 
       if (isEdit) {
         setAquariums((prev) =>

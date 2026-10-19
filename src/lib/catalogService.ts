@@ -111,19 +111,13 @@ if (!globalStore.__natureHouseAquariums) {
  * Fetch all plants with instant disk sync and DB fallback.
  */
 export async function getPlants(): Promise<PlantItem[]> {
-  // 1. Prioritize persisted runtime catalog (ensures manual updates and admin edits reflect immediately)
-  const disk = loadPersistedCatalog();
-  if (disk?.plants && disk.plants.length > 0) {
-    globalStore.__natureHousePlants = disk.plants;
-    return disk.plants;
-  }
-
+  // 1. Prioritize authoritative PostgreSQL database when configured
   let dbPlants: PlantItem[] = [];
   try {
     const res = await query<DbPlantRow>(`
       SELECT 
         p.id,
-        c.name as category_name,
+        COALESCE(c.name, 'Indoor Foliage') as category_name,
         p.title,
         p.botanical_name,
         p.description,
@@ -158,14 +152,18 @@ export async function getPlants(): Promise<PlantItem[]> {
         isInStock: row.is_in_stock,
         isFeatured: row.is_featured,
       }));
+      globalStore.__natureHousePlants = dbPlants;
+      return dbPlants;
     }
   } catch {
     // Database connection absent or idle; fallback to memory/disk store
   }
 
-  if (dbPlants.length > 0) {
-    globalStore.__natureHousePlants = dbPlants;
-    return dbPlants;
+  // 2. Fallback to runtime disk catalog or memory
+  const disk = loadPersistedCatalog();
+  if (disk?.plants && disk.plants.length > 0) {
+    globalStore.__natureHousePlants = disk.plants;
+    return disk.plants;
   }
 
   return globalStore.__natureHousePlants || MOCK_PLANTS;
@@ -349,19 +347,13 @@ export async function deletePlant(id: string): Promise<boolean> {
  * Fetch all handcrafted aquariums with instant disk sync and DB fallback.
  */
 export async function getAquariums(): Promise<AquariumItem[]> {
-  // 1. Prioritize persisted runtime catalog (ensures manual updates and admin edits reflect immediately)
-  const disk = loadPersistedCatalog();
-  if (disk?.aquariums && disk.aquariums.length > 0) {
-    globalStore.__natureHouseAquariums = disk.aquariums;
-    return disk.aquariums;
-  }
-
+  // 1. Prioritize authoritative PostgreSQL database when configured
   let dbAquariums: AquariumItem[] = [];
   try {
     const res = await query<DbAquariumRow>(`
       SELECT 
         a.id,
-        c.name as category_name,
+        COALESCE(c.name, 'Rimless Ultra-Clear') as category_name,
         a.title,
         a.glass_type,
         a.glass_thickness_mm,
@@ -398,14 +390,18 @@ export async function getAquariums(): Promise<AquariumItem[]> {
         isInStock: row.is_in_stock,
         isFeatured: row.is_featured,
       }));
+      globalStore.__natureHouseAquariums = dbAquariums;
+      return dbAquariums;
     }
   } catch {
     // Database connection absent or idle; fallback to memory/disk store
   }
 
-  if (dbAquariums.length > 0) {
-    globalStore.__natureHouseAquariums = dbAquariums;
-    return dbAquariums;
+  // 2. Fallback to runtime disk catalog or memory
+  const disk = loadPersistedCatalog();
+  if (disk?.aquariums && disk.aquariums.length > 0) {
+    globalStore.__natureHouseAquariums = disk.aquariums;
+    return disk.aquariums;
   }
 
   return globalStore.__natureHouseAquariums || MOCK_AQUARIUMS;
