@@ -1,0 +1,82 @@
+{
+  "notices": [
+    {
+      "id": "mon-care",
+      "type": "maintenance",
+      "title": "Weekly Monday Sanctuary Restocking",
+      "dateOrPeriod": "Every Monday",
+      "status": "Closed",
+      "hours": "Closed for Walk-ins",
+      "details": "Reserved for deep greenhouse plant hydration, botanical pruning, and bespoke glass aquarium fabrication.",
+      "badgeClass": "text-rose-800 bg-rose-50 border-rose-200"
+    },
+    {
+      "id": "diwali-2026",
+      "type": "festival",
+      "title": "Deepavali (Festival of Lights)",
+      "dateOrPeriod": "Oct 31 – Nov 1, 2026",
+      "status": "Special Hours",
+      "hours": "10:00 AM – 4:00 PM",
+      "details": "Festive display gallery open. Special handcrafted gifting terrariums and mini aquascapes available.",
+      "badgeClass": "text-amber-800 bg-amber-50 border-amber-200"
+    },
+    {
+      "id": "rajyotsava-2026",
+      "type": "holiday",
+      "title": "Kannada Rajyotsava",
+      "dateOrPeriod": "Nov 1, 2026",
+      "status": "Special Hours",
+      "hours": "10:00 AM – 5:00 PM",
+      "details": "Celebrating Karnataka heritage with curated indigenous Western Ghats freshwater mosses & tropical ferns.",
+      "badgeClass": "text-emerald-800 bg-emerald-50 border-emerald-200"
+    },
+    {
+      "id": "christmas-2026",
+      "type": "festival",
+      "title": "Christmas & Winter Solstice",
+      "dateOrPeriod": "Dec 25, 2026",
+      "status": "Open Normal",
+      "hours": "9:00 AM – 8:30 PM",
+      "details": "Full living studio open. Walk-ins welcome for custom aquatic scape design consultations.",
+      "badgeClass": "text-emerald-800 bg-emerald-50 border-emerald-200"
+    },
+    {
+      "id": "newyear-2027",
+      "type": "holiday",
+      "title": "New Year's Day Welcome",
+      "dateOrPeriod": "Jan 1, 2027",
+      "status": "Special Hours",
+      "hours": "11:00 AM – 8:30 PM",
+      "details": "Begin the new year with living greenery. Complementary plant potting guidance for all studio visitors.",
+      "badgeClass": "text-sky-800 bg-sky-50 border-sky-200"
+    },
+    {
+      "id": "republic-day-2027",
+      "type": "holiday",
+      "title": "Republic Day",
+      "dateOrPeriod": "Jan 26, 2027",
+      "status": "Special Hours",
+      "hours": "11:00 AM – 5:00 PM",
+      "details": "Studio open for patriotic plant arrangements and national symbol lotus aquascapes.",
+      "badgeClass": "text-emerald-800 bg-emerald-50 border-emerald-200"
+    },
+    {
+      "id": "independence-day-2027",
+      "type": "holiday",
+      "title": "Independence Day",
+      "dateOrPeriod": "Aug 15, 2027",
+      "status": "Closed",
+      "hours": "Closed for Walk-ins",
+      "details": "National holiday observance. Digital botanical consultation available online.",
+      "badgeClass": "text-rose-800 bg-rose-50 border-rose-200"
+    }
+  ],
+  "studioNotice": {
+    "headline": "Studio Availability & Live Broadcast",
+    "message": "Full botanical studio & aquascaping showroom are open Tuesday to Sunday (9:00 AM – 8:30 PM). Walk-ins welcome without prior booking. Mondays are dedicated to nursery care and tank assembly.",
+    "updatedAt": "October 2026",
+    "availabilityStatus": "Open for Walk-ins & Consultations",
+    "isEmergencyClosed": false,
+    "emergencyClosedMessage": ""
+  }
+}

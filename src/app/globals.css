@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────────────────
+   FONT VARIABLE DEFINITIONS (runtime Google Fonts)
+───────────────────────────────────────────────────────── */
+:root {
+  --font-jakarta:  'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-playfair: 'Playfair Display', Georgia, serif;
+  --font-mono:     'Consolas', 'Monaco', monospace;
+}
+
+/* ─────────────────────────────────────────────────────────
+   CSS CUSTOM PROPERTIES — DESIGN TOKENS
+───────────────────────────────────────────────────────── */
+:root {
+  /* Core palette */
+  --color-linen:    #fcfbf7;
+  --color-forest:   #0f281e;
+  --color-moss:     #2d6a4f;
+  --color-sage:     #52836f;
+  --color-stone:    #1e293b;
+  --color-muted:    #78716c;
+  --color-border:   #e7e5e4;
+
+  --color-aqua:     #0077b6;
+  --color-aqua-bg:  #e0f2fe;
+
+  --color-wa:       #25d366;
+  --color-wa-hover: #20ba5a;
+
+  /* Glass morphism surface */
+  --glass-bg:       rgba(255, 255, 255, 0.72);
+  --glass-border:   rgba(255, 255, 255, 0.55);
+  --glass-blur:     12px;
+
+  /* Shadows */
+  --shadow-soft:    0 4px 20px rgba(0, 0, 0, 0.05);
+  --shadow-lift:    0 8px 32px rgba(0, 0, 0, 0.09);
+  --shadow-hover:   0 16px 48px rgba(0, 0, 0, 0.13);
+}
+
+/* ─────────────────────────────────────────────────────────
+   BASE LAYER — GLOBAL RESETS & DEFAULTS
+───────────────────────────────────────────────────────── */
+@layer base {
+  html {
+    @apply scroll-smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-nature-linen text-nature-stone antialiased;
+    font-family: var(--font-jakarta), system-ui, sans-serif;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 20% 40%, rgba(45, 106, 79, 0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 20%, rgba(0, 119, 182, 0.06) 0%, transparent 60%);
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-nature-forest font-display tracking-tight;
+  }
+
+  /* Smooth focus rings */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-nature-moss ring-offset-2 ring-offset-nature-linen;
+  }
+
+  /* Image defaults */
+  img {
+    @apply max-w-full;
+    image-rendering: -webkit-optimize-contrast;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────
+   COMPONENT LAYER — REUSABLE UI PRIMITIVES
+───────────────────────────────────────────────────────── */
+@layer components {
+
+  /* ── GLASS CARD SURFACE ── */
+  .glass-card {
+    @apply rounded-2xl border border-white/60;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    box-shadow: var(--shadow-soft);
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+  }
+  .glass-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-3px);
+  }
+
+  /* ── CATALOG CARD ── */
+  .catalog-card {
+    @apply glass-card overflow-hidden cursor-pointer;
+  }
+  .catalog-card-img {
+    @apply w-full aspect-[4/3] object-cover transition-transform duration-500 ease-out;
+  }
+  .catalog-card:hover .catalog-card-img {
+    transform: scale(1.04);
+  }
+
+  /* ── WHATSAPP BUTTON (Standardized Big Size) ── */
+  .btn-whatsapp {
+    @apply flex items-center justify-center gap-2.5 w-full rounded-2xl py-3.5 px-6
+           font-sans font-bold text-sm sm:text-base text-white tracking-wide
+           transition-all duration-200 active:scale-95 shadow-md cursor-pointer;
+    background-color: var(--color-wa);
+    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.32);
+  }
+  .btn-whatsapp:hover {
+    background-color: var(--color-wa-hover);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+    transform: translateY(-1px);
+  }
+
+  /* ── PILL BADGE ── */
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5
+           text-2xs font-semibold tracking-wide uppercase;
+  }
+  .badge-green  { @apply badge bg-emerald-100 text-emerald-700; }
+  .badge-sold   { @apply badge bg-rose-50 text-rose-600; }
+  .badge-aqua   { @apply badge bg-aqua-mist text-aqua-azure; }
+  .badge-amber  { @apply badge bg-amber-50 text-amber-700; }
+
+  /* ── SPEC CHIP ── */
+  .spec-chip {
+    @apply flex items-center gap-1.5 rounded-lg px-2.5 py-1.5
+           text-xs font-medium border border-nature-border/80
+           bg-white/60 text-nature-stone;
+  }
+  .spec-chip-plant { @apply spec-chip border-nature-moss/20 bg-nature-leaf/70 text-nature-moss; }
+  .spec-chip-aqua  { @apply spec-chip border-aqua-azure/20 bg-aqua-mist/70 text-aqua-azure; }
+
+  /* ── SECTION SWITCHER PILL CONTAINER ── */
+  .switcher-track {
+    @apply relative inline-flex items-center gap-0 rounded-full p-1.5
+           bg-stone-200/60 border border-nature-border;
+  }
+  .switcher-btn {
+    @apply relative z-10 flex items-center gap-2.5 rounded-full px-6 py-3
+           text-sm sm:text-base font-bold transition-colors duration-200 cursor-pointer;
+  }
+  .switcher-btn-active  { @apply text-nature-forest; }
+  .switcher-btn-inactive{ @apply text-nature-muted; }
+
+  /* ── FILTER PILL ── */
+  .filter-pill {
+    @apply rounded-full px-4 py-2 text-xs sm:text-sm font-semibold
+           border transition-all duration-200 cursor-pointer whitespace-nowrap;
+  }
+  .filter-pill-active {
+    @apply filter-pill bg-nature-forest text-nature-linen border-nature-forest;
+  }
+  .filter-pill-inactive {
+    @apply filter-pill bg-white/70 text-nature-stone border-nature-border hover:border-nature-moss hover:text-nature-moss;
+  }
+
+  /* ── INPUT FIELD ── */
+  .nh-input {
+    @apply w-full rounded-xl border border-nature-border bg-white/80 px-4 py-3
+           text-sm font-medium text-nature-stone placeholder:text-nature-muted
+           focus:outline-none focus:ring-2 focus:ring-nature-moss/40 focus:border-nature-moss
+           transition-all duration-200;
+  }
+
+  /* ── PRIMARY BUTTON (Standardized Big Size) ── */
+  .btn-primary {
+    @apply flex items-center justify-center gap-2.5 rounded-2xl px-6 py-3.5
+           bg-nature-forest text-nature-linen text-sm sm:text-base font-bold
+           hover:bg-nature-moss transition-all duration-200 shadow-md
+           active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer;
+  }
+
+  /* ── SECONDARY BUTTON (Standardized Big Size) ── */
+  .btn-secondary {
+    @apply flex items-center justify-center gap-2.5 rounded-2xl px-6 py-3.5
+           bg-white border border-stone-300 text-nature-forest text-sm sm:text-base font-bold
+           hover:bg-stone-50 hover:border-emerald-600/40 transition-all duration-200 shadow-sm
+           active:scale-95 cursor-pointer;
+  }
+
+  /* ── STORE STATUS PILL ── */
+  .store-status-pill {
+    @apply inline-flex items-center gap-2 rounded-full px-3 py-1
+           text-xs font-medium bg-white/80 border border-nature-border
+           backdrop-blur-sm shadow-soft;
+  }
+
+  /* ── SECTION HEADING ── */
+  .section-heading {
+    @apply font-display text-2xl md:text-3xl font-bold text-nature-forest tracking-tight;
+  }
+
+  /* ── PRICE DISPLAY ── */
+  .price-display {
+    @apply font-sans text-xl font-bold text-nature-forest tracking-tight;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────
+   UTILITY LAYER — EXTRA HELPERS
+───────────────────────────────────────────────────────── */
+@layer utilities {
+  /* Glassmorphism surface */
+  .glassmorphism {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar { display: none; }
+
+  /* Line clamp utilities */
+  .line-clamp-1 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; }
+  .line-clamp-2 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+
+  /* Safe-area padding for mobile notches */
+  .safe-bottom { padding-bottom: env(safe-area-inset-bottom, 16px); }
+  .safe-top    { padding-top:    env(safe-area-inset-top,    16px); }
+}
