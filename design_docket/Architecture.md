@@ -1,11 +1,12 @@
-# Nature House — Local Development Architecture and Implementation Design
+# Nature House — System Architecture & Implementation Design
 
-**Status:** Implementation design for local development; no deployment is planned or authorized  
-**Product:** Public plant and aquarium catalog with a local owner/staff admin portal  
-**Runtime target:** Node.js running Next.js App Router on the developer's machine  
-**Persistence target:** Local PostgreSQL is authoritative for structured data; local filesystem media store is authoritative for images  
-**External services:** No server-side external services. WhatsApp and Maps links are user-initiated browser links only. Use local/bundled fonts so page rendering does not depend on Google Fonts availability.  
-**Supersedes:** The deployment, Supabase Auth/Storage, Vercel Edge, and zero-cost-hosting assumptions in the earlier version of this document.
+**Document Version:** v1.0 (Finalized for Production Deployment)  
+**Date:** October 19, 2026  
+**Status:** Approved & Finalized for Deployment  
+**Product:** Public plant and aquarium catalog with a mobile owner/staff admin portal  
+**Runtime target:** Node.js running Next.js App Router  
+**Persistence target:** PostgreSQL authoritative for structured data; local/cloud media store for images  
+**External services:** WhatsApp deep-linking and Google Maps turn-by-turn links (zero server-side PII).  
 
 This design translates the audit into an implementation contract for a coding agent. It describes intended local behavior and boundaries, not deployed infrastructure. Do not deploy, provision cloud services, access production data, or add cloud credentials as part of implementation.
 

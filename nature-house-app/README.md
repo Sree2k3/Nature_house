@@ -1,3 +1,11 @@
+# Nature House App
+
+**Version:** v1.0 (Production Ready)  
+**Date:** October 19, 2026  
+**Status:** Finalized for Production Deployment  
+
+---
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

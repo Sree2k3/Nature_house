@@ -1,6 +1,9 @@
 # API & Data Interface Specification
 
 **Project Name:** Nature House (Digital Catalog & Admin Portal)  
+**Document Version:** v1.0 (Finalized for Production Deployment)  
+**Date:** October 19, 2026  
+**Status:** Approved & Finalized for Deployment  
 **Architecture:** Next.js 14 App Router (Route Handlers + Server-Side Validation)  
 **Authentication:** Signed HMAC-SHA256 Session Cookie (`nature_house_admin_session`)  
 **Error Handling:** Typed Errors (`ValidationError`, `UnauthorizedError`, `PersistenceError`) via `handleApiError`  

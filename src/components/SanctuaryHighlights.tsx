@@ -20,7 +20,7 @@ export default function SanctuaryHighlights() {
     {
       icon: <Truck className="h-6 w-6 text-amber-700" />,
       title: 'Cushioned Vehicle Delivery',
-      desc: 'We never ship live foliage or glass tanks via rough couriers. Orders travel via dedicated, cushioned nursery transport across Bangalore.',
+      desc: 'We never ship live foliage or glass tanks via rough couriers. Orders travel via dedicated, cushioned nursery transport across Adra and West Bengal.',
       bg: 'bg-amber-50/70 border-amber-100',
     },
     {

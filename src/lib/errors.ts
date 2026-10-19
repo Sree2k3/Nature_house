@@ -136,7 +136,6 @@ export function handleApiError(err: unknown): NextResponse {
     );
   }
 
-  const message = err instanceof Error ? err.message : 'Internal Server Error';
   return NextResponse.json(
     {
       error: {

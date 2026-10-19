@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 import crypto from 'crypto';
-import { getAdminByEmail, getAdminById, hashPassword, verifyPassword } from './authService';
+import { getAdminByEmail, verifyPassword } from './authService';
 
 export const ADMIN_COOKIE_NAME = 'nature_house_admin_session';
 export const MAX_ADMIN_COUNT = 3;

@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Sparkles, MessageCircle, MapPin, ArrowRight, Search, X, Leaf, Waves, LayoutGrid, Grid3X3 } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 import Header from '@/components/Header';
 import NatureHero from '@/components/NatureHero';
 import SectionSwitcher from '@/components/SectionSwitcher';
@@ -13,7 +13,6 @@ import ItemDetailModal, { SelectedCatalogItem } from '@/components/ItemDetailMod
 import PhotoLightbox from '@/components/PhotoLightbox';
 import SanctuaryHighlights from '@/components/SanctuaryHighlights';
 import Footer from '@/components/Footer';
-import FloatingWhatsApp from '@/components/FloatingWhatsApp';
 import { PlantItem, AquariumItem, CatalogSection, StoreInfo } from '@/types/catalog';
 
 interface CatalogClientProps {
@@ -83,8 +82,10 @@ export default function CatalogClient({
     }
   }, []);
 
-  // Sync on window focus or visibility change without redundant duplicate triggers
+  // Immediate sync on mount and sync on window focus or visibility change
   useEffect(() => {
+    refreshCatalog(true);
+
     const handleSync = () => {
       if (document.visibilityState === 'visible') {
         refreshCatalog();
@@ -100,8 +101,6 @@ export default function CatalogClient({
     };
   }, [refreshCatalog]);
 
-  // Layout Grid Switcher: 3 columns vs 4 columns
-  const [columnsMode, setColumnsMode] = useState<'3' | '4'>('3');
 
   // Enlarge Card Detail Modal State
   const [selectedItem, setSelectedItem] = useState<SelectedCatalogItem>(null);
@@ -124,6 +123,18 @@ export default function CatalogClient({
   const handleCloseLightbox = () => {
     setLightboxState({ isOpen: false, imageUrl: null, title: null });
   };
+
+  // Master body scroll lock coordinator: guarantees scroll is restored whenever modals close
+  useEffect(() => {
+    if (selectedItem || lightboxState.isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [selectedItem, lightboxState.isOpen]);
 
   // Filtered Plants with Category + Search
   const filteredPlants = useMemo(() => {
@@ -162,10 +173,8 @@ export default function CatalogClient({
     return list;
   }, [activeAquaCategory, aquariums, searchQuery]);
 
-  const gridClass =
-    columnsMode === '3'
-      ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7'
-      : 'grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3.5 sm:gap-5';
+  // Fixed 4-card catalog layout per row on desktop
+  const gridClass = 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-5';
 
   return (
     <div className="flex min-h-screen flex-col bg-nature-linen selection:bg-nature-moss selection:text-white">
@@ -218,10 +227,9 @@ export default function CatalogClient({
           )}
         </div>
 
-        {/* Live Search & Layout View Controls */}
-        <div className="mx-auto max-w-4xl px-4 mt-3 flex items-center justify-between gap-3">
-          {/* Live Search Input */}
-          <div className="relative flex-1 max-w-md">
+        {/* Live Search Controls */}
+        <div className="mx-auto max-w-md px-4 mt-3">
+          <div className="relative w-full">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-stone-400" />
             <input
               type="text"
@@ -237,43 +245,12 @@ export default function CatalogClient({
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 cursor-pointer"
                 title="Clear search"
               >
                 <X className="h-3.5 w-3.5" />
               </button>
             )}
-          </div>
-
-          {/* Layout Grid Switcher (3 Cards vs 4 Cards) */}
-          <div className="flex items-center gap-1 rounded-full border border-stone-200/80 bg-white/90 p-1 shadow-2xs shrink-0">
-            <button
-              onClick={() => setColumnsMode('3')}
-              className={`flex items-center gap-1.5 rounded-full px-2.5 sm:px-3 py-1 text-xs font-semibold transition-all cursor-pointer ${
-                columnsMode === '3'
-                  ? 'bg-nature-forest text-white shadow-xs'
-                  : 'text-stone-500 hover:text-nature-stone'
-              }`}
-              title="3-Column Editorial Gallery (Spacious)"
-            >
-              <Grid3X3 className="h-3.5 w-3.5" />
-              <span className="hidden sm:inline">3 Cards</span>
-              <span className="sm:hidden text-2xs">3</span>
-            </button>
-
-            <button
-              onClick={() => setColumnsMode('4')}
-              className={`flex items-center gap-1.5 rounded-full px-2.5 sm:px-3 py-1 text-xs font-semibold transition-all cursor-pointer ${
-                columnsMode === '4'
-                  ? 'bg-nature-forest text-white shadow-xs'
-                  : 'text-stone-500 hover:text-nature-stone'
-              }`}
-              title="4-Column Compact Showcase"
-            >
-              <LayoutGrid className="h-3.5 w-3.5" />
-              <span className="hidden sm:inline">4 Cards</span>
-              <span className="sm:hidden text-2xs">4</span>
-            </button>
           </div>
         </div>
       </section>
@@ -358,7 +335,7 @@ export default function CatalogClient({
                   No plants match &ldquo;{searchQuery}&rdquo;
                 </p>
                 <p className="text-xs text-nature-stone/75 mt-1 max-w-sm mx-auto">
-                  We frequently receive fresh unlisted tropical specimens in our Bangalore nursery. Message our botanist directly to check greenhouse stock.
+                  We frequently receive fresh unlisted tropical specimens in our Adra, West Bengal nursery. Message our botanist directly to check greenhouse stock.
                 </p>
                 <div className="mt-5 flex flex-wrap items-center justify-center gap-2.5">
                   <button
@@ -428,7 +405,6 @@ export default function CatalogClient({
         selected={selectedItem}
         onClose={() => setSelectedItem(null)}
         onOpenPhotoZoom={(img, t) => {
-          setSelectedItem(null);
           handleOpenLightbox(img, t);
         }}
       />
@@ -440,9 +416,6 @@ export default function CatalogClient({
         title={lightboxState.title}
         onClose={handleCloseLightbox}
       />
-
-      {/* 10. Floating WhatsApp Quick-Consultation Button */}
-      <FloatingWhatsApp />
     </div>
   );
 }

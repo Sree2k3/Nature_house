@@ -1,9 +1,11 @@
 # Operations & Local Deployment Runbook
 
 **Project Name:** Nature House (Digital Catalog & Admin Portal)  
-**Document Version:** 2.0 (Local Architecture)  
-**Target Environment:** Local Node.js App Router + Local PostgreSQL + Local Content Store  
-**Storage Path:** Local Filesystem (`var/media/`)  
+**Document Version:** v1.0 (Finalized for Production Deployment)  
+**Date:** October 19, 2026  
+**Status:** Approved & Finalized for Deployment  
+**Target Environment:** Node.js App Router + PostgreSQL + Media Storage  
+**Storage Path:** Local Filesystem (`var/media/`) / Cloud Storage  
 
 ---
 

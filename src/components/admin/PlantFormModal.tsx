@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Save, Sparkles, Loader2, Image as ImageIcon, UploadCloud, Camera, Trash2, CheckCircle2 } from 'lucide-react';
+import { X, Save, Loader2, UploadCloud, Camera, Trash2, CheckCircle2 } from 'lucide-react';
 import { PlantItem } from '@/types/catalog';
 
 interface PlantFormModalProps {
@@ -39,6 +39,7 @@ export default function PlantFormModal({
   const [waterFrequency, setWaterFrequency] = useState('1x Weekly');
   const [potSize, setPotSize] = useState('6-inch Nursery Pot');
   const [difficultyLevel, setDifficultyLevel] = useState<'Beginner' | 'Moderate' | 'Expert'>('Beginner');
+  const [idealPlacement, setIdealPlacement] = useState('');
   const [badge, setBadge] = useState('');
   const [description, setDescription] = useState('');
   const [isInStock, setIsInStock] = useState(true);
@@ -58,6 +59,7 @@ export default function PlantFormModal({
       setWaterFrequency(plant.waterFrequency || '1x Weekly');
       setPotSize(plant.potSize || '6-inch Nursery Pot');
       setDifficultyLevel(plant.difficultyLevel || 'Beginner');
+      setIdealPlacement(plant.idealPlacement || '');
       setBadge(plant.badge || '');
       setDescription(plant.description || '');
       setIsInStock(plant.isInStock);
@@ -76,8 +78,9 @@ export default function PlantFormModal({
       setWaterFrequency('1x Weekly');
       setPotSize('6-inch Nursery Pot');
       setDifficultyLevel('Beginner');
+      setIdealPlacement('Living room shelf, bright desk, or bedroom table');
       setBadge('🌿 Nursery Fresh');
-      setDescription('Freshly potted specimen nurtured in our Bangalore botanical studio with organic perlite bark substrate.');
+      setDescription('Freshly potted specimen nurtured in our Adra botanical studio with organic perlite bark substrate.');
       setIsInStock(true);
       setIsFeatured(false);
     }
@@ -236,6 +239,7 @@ export default function PlantFormModal({
       waterFrequency,
       potSize,
       difficultyLevel,
+      idealPlacement: idealPlacement.trim() || undefined,
       badge: badge.trim() || undefined,
       description: description.trim(),
       isInStock,
@@ -479,6 +483,20 @@ export default function PlantFormModal({
                 <option value="Expert">Expert</option>
               </select>
             </div>
+          </div>
+
+          {/* Row 4.5: Ideal Room Position / Placement */}
+          <div>
+            <label className="block text-2xs font-bold uppercase tracking-wider text-nature-stone mb-1.5">
+              Ideal Room Position (Displayed in Modal Card)
+            </label>
+            <input
+              type="text"
+              value={idealPlacement}
+              onChange={(e) => setIdealPlacement(e.target.value)}
+              placeholder="e.g. Bedroom nightstand, workspace desk, or living room shelf"
+              className="w-full rounded-xl border border-stone-300 px-3.5 py-2 text-xs text-stone-800 focus:border-nature-moss focus:ring-1 focus:ring-nature-moss"
+            />
           </div>
 
           {/* Row 5: Badge & Status */}

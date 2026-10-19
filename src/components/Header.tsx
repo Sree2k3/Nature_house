@@ -53,13 +53,10 @@ export default function Header() {
             <div>
               <a
                 href="/"
-                className="font-display text-xl font-bold tracking-tight text-nature-forest sm:text-2xl hover:opacity-90"
+                className="font-display text-xl font-bold tracking-tight text-nature-forest sm:text-2xl hover:opacity-90 block leading-tight"
               >
                 {STORE_INFO.storeName}
               </a>
-              <p className="hidden text-xs text-nature-muted sm:block">
-                Botanical Sanctuary &amp; Aquascaping Gallery
-              </p>
             </div>
           </div>
 

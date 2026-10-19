@@ -14,7 +14,6 @@ import {
   Droplet,
   Layers,
   Armchair,
-  Compass,
   MapPin,
   Maximize2,
   CheckCircle2,
@@ -52,29 +51,38 @@ export default function ItemDetailModal({
     }
   }, [rawImageUrl]);
 
-  // Close on Escape key and lock body scroll cleanly preserving prior overflow
+  // Robust body scroll lock: locks when open, immediately restores scroll when closed or unmounted
   useEffect(() => {
+    if (!selected) {
+      document.body.style.overflow = '';
+      return;
+    }
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
 
-    const prevOverflow = document.body.style.overflow;
-    if (selected) {
-      window.addEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = 'hidden';
-    }
+    window.addEventListener('keydown', handleKeyDown);
+    document.body.style.overflow = 'hidden';
+
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = prevOverflow;
+      document.body.style.overflow = '';
     };
   }, [selected, onClose]);
+
+  // Global safety unlock on unmount
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
 
   if (!selected) return null;
 
   const title = isPlant ? plant!.title : aquarium!.title;
   const subtitle = isPlant ? plant!.botanicalName : `${aquarium!.dimensionsCm} • ${aquarium!.volumeLiters}L`;
   const price = isPlant ? plant!.price : aquarium!.price;
-  const imageUrl = isPlant ? plant!.imageUrl : aquarium!.imageUrl;
   const description = isPlant ? plant!.description : aquarium!.description;
   const isInStock = isPlant ? plant!.isInStock : aquarium!.isInStock;
   const badge = isPlant ? plant!.badge : aquarium!.badge;
@@ -105,34 +113,35 @@ export default function ItemDetailModal({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.25 }}
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-3 sm:p-5 backdrop-blur-md overflow-y-auto"
+        transition={{ duration: 0.22 }}
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-3 sm:p-6 backdrop-blur-md overflow-y-auto overscroll-contain"
         onClick={onClose}
       >
         <motion.div
-          initial={{ opacity: 0, scale: 0.92, y: 24 }}
+          initial={{ opacity: 0, scale: 0.94, y: 16 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.92, y: 24 }}
-          transition={{ type: 'spring', damping: 28, stiffness: 350 }}
+          exit={{ opacity: 0, scale: 0.94, y: 16 }}
+          transition={{ type: 'spring', damping: 26, stiffness: 340 }}
           role="dialog"
           aria-modal="true"
           aria-labelledby="item-detail-title"
-          className="relative flex flex-col md:flex-row w-full max-w-4xl max-h-[92vh] overflow-hidden rounded-3xl bg-nature-linen border border-stone-200/80 shadow-2xl"
+          className="relative flex flex-col md:grid md:grid-cols-2 w-full max-w-4xl max-h-[90vh] md:max-h-[85vh] md:h-[680px] overflow-hidden rounded-3xl bg-nature-linen border border-stone-200/80 shadow-2xl my-auto"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Floating Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/80 text-stone-700 shadow-md backdrop-blur-md hover:bg-white hover:scale-105 active:scale-95 transition-all cursor-pointer"
+            className="absolute top-4 right-4 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-white/85 text-stone-700 shadow-md backdrop-blur-md hover:bg-white hover:scale-105 active:scale-95 transition-all cursor-pointer"
             title="Close (Esc)"
+            aria-label="Close modal"
           >
-            <X className="h-5 w-5" />
+            <X className="h-4.5 w-4.5" />
           </button>
 
-          {/* Left Column: Edge-to-Edge Hero Image Showcase */}
+          {/* Left Column: Ambient Full Aspect Photo Showcase */}
           <div
             onClick={() => onOpenPhotoZoom(modalImgSrc, title)}
-            className="relative w-full md:w-1/2 aspect-[4/3] md:aspect-auto bg-stone-100 overflow-hidden flex-shrink-0 cursor-zoom-in group/img"
+            className="relative h-[240px] sm:h-[300px] md:h-full md:min-h-0 bg-stone-100 overflow-hidden cursor-zoom-in group/img shrink-0"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -145,49 +154,41 @@ export default function ItemDetailModal({
                     : 'https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?auto=format&fit=crop&w=900&q=80'
                 );
               }}
-              className="h-full w-full object-cover select-none transition-transform duration-500 group-hover/img:scale-105"
+              className="h-full w-full object-cover select-none transition-transform duration-700 group-hover/img:scale-105"
             />
-
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent md:hidden" />
 
             {/* Badges Overlay */}
             <div className="absolute top-4 left-4 flex flex-wrap gap-2 z-10">
               {badge && (
-                <span className="badge-green shadow-sm text-xs font-bold px-3 py-1 backdrop-blur-md">
+                <span className="badge-green shadow-xs text-xs font-bold px-3 py-1 backdrop-blur-md">
                   {badge}
                 </span>
               )}
               {isInStock ? (
-                <span className="badge inline-flex items-center gap-1.5 bg-white/95 text-emerald-800 shadow-sm backdrop-blur-md font-semibold px-3 py-1">
+                <span className="badge inline-flex items-center gap-1.5 bg-white/95 text-emerald-800 shadow-xs backdrop-blur-md font-semibold px-3 py-1 text-xs">
                   <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
                   In Stock &amp; Ready
                 </span>
               ) : (
-                <span className="badge-sold shadow-sm font-semibold px-3 py-1">
+                <span className="badge-sold shadow-xs font-semibold px-3 py-1 text-xs">
                   Sold Out / Custom Order
                 </span>
               )}
             </div>
 
-            {/* Full-Screen Zoom Button Overlay */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onOpenPhotoZoom(modalImgSrc, title);
-              }}
-              className="absolute bottom-4 left-4 z-10 flex items-center gap-1.5 rounded-full bg-black/65 px-3.5 py-1.5 text-xs font-medium text-white shadow-md backdrop-blur-md hover:bg-black/85 hover:scale-105 active:scale-95 transition-all cursor-pointer"
-            >
+            {/* Full-Screen Zoom Overlay */}
+            <div className="absolute bottom-4 left-4 z-10 flex items-center gap-1.5 rounded-full bg-black/60 px-3.5 py-1.5 text-xs font-medium text-white shadow-md backdrop-blur-md pointer-events-none">
               <Maximize2 className="h-3.5 w-3.5 text-emerald-400" />
-              <span>Click to Zoom &amp; Inspect</span>
-            </button>
+              <span>Click image to zoom</span>
+            </div>
           </div>
 
-          {/* Right Column: Comprehensive Content & Conversion Details */}
-          <div className="flex flex-1 flex-col justify-between overflow-y-auto p-6 sm:p-8">
-            <div className="space-y-5">
+          {/* Right Column: Full Rich Details & Sensory Specs */}
+          <div className="flex flex-col justify-between overflow-y-auto min-h-0 h-full p-6 sm:p-8 overscroll-contain">
+            <div className="space-y-4">
               {/* Header: Title & Botanical / Dimension Subtitle */}
               <div>
-                <span className="text-2xs font-bold uppercase tracking-widest text-nature-sage">
+                <span className="text-xs font-bold uppercase tracking-widest text-nature-sage">
                   {isPlant ? 'Nursery Living Specimen' : 'Handcrafted Studio Aquarium'}
                 </span>
                 <h2 id="item-detail-title" className="font-display text-2xl sm:text-3xl font-bold text-nature-forest mt-1">
@@ -204,13 +205,13 @@ export default function ItemDetailModal({
                   <span className="text-2xs uppercase tracking-wider text-nature-muted font-medium">
                     Listed Studio Price
                   </span>
-                  <p className="price-display text-3xl font-bold text-nature-forest">
+                  <p className="price-display text-2xl sm:text-3xl font-bold text-nature-forest">
                     ₹{price.toLocaleString('en-IN')}
                   </p>
                 </div>
                 <div className="text-right">
-                  <span className="inline-flex items-center gap-1 text-2xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">
-                    <CheckCircle2 className="h-3 w-3" />
+                  <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">
+                    <CheckCircle2 className="h-3.5 w-3.5" />
                     Zero Middleman Markups
                   </span>
                   <p className="text-2xs text-nature-muted mt-1">Direct Nursery Pickup / Padded Delivery</p>
@@ -305,25 +306,23 @@ export default function ItemDetailModal({
               </div>
 
               {/* Sensory Guidance Note */}
-              {isPlant && (plant!.careTip || plant!.idealPlacement) && (
+              {isPlant && plant!.idealPlacement && (
                 <div className="rounded-2xl border border-emerald-200/80 bg-nature-leaf/50 p-3.5 space-y-1.5 text-xs text-nature-stone">
-                  {plant!.careTip && (
-                    <p className="flex items-start gap-2">
-                      <Compass className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
-                      <span><strong>Botanist Advice:</strong> {plant!.careTip}</span>
-                    </p>
-                  )}
-                  {plant!.idealPlacement && (
-                    <p className="flex items-start gap-2">
-                      <MapPin className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
-                      <span><strong>Ideal Room Position:</strong> {plant!.idealPlacement}</span>
-                    </p>
-                  )}
+                  <p className="flex items-start gap-2">
+                    <MapPin className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
+                    <span><strong>Ideal Room Position:</strong> {plant!.idealPlacement}</span>
+                  </p>
                 </div>
               )}
 
-              {!isPlant && (aquarium!.clarityRating || aquarium!.aquascapingTip) && (
+              {!isPlant && (aquarium!.idealPlacement || aquarium!.clarityRating || aquarium!.aquascapingTip) && (
                 <div className="rounded-2xl border border-sky-200/80 bg-sky-50/50 p-3.5 space-y-1.5 text-xs text-nature-stone">
+                  {aquarium!.idealPlacement && (
+                    <p className="flex items-start gap-2">
+                      <MapPin className="h-4 w-4 text-sky-600 shrink-0 mt-0.5" />
+                      <span><strong>Ideal Room Position:</strong> {aquarium!.idealPlacement}</span>
+                    </p>
+                  )}
                   {aquarium!.clarityRating && (
                     <p className="flex items-start gap-2">
                       <ShieldCheck className="h-4 w-4 text-sky-600 shrink-0 mt-0.5" />
@@ -346,15 +345,13 @@ export default function ItemDetailModal({
                 href={whatsAppUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-whatsapp rounded-2xl py-3.5 text-base shadow-whatsapp w-full"
+                className="btn-whatsapp rounded-2xl py-3.5 text-base shadow-whatsapp w-full justify-center flex items-center gap-2 active:scale-95 transition-all"
               >
                 <MessageCircle className="h-5 w-5" />
-                <span>
-                  {isInStock ? 'Inquire & Order on WhatsApp' : 'Inquire on Custom Build Quote'}
-                </span>
+                <span>Inquire</span>
               </a>
 
-              <div className="flex items-center justify-between text-xs text-nature-muted px-1">
+              <div className="flex items-center justify-center text-xs text-nature-muted px-1">
                 <a
                   href={`tel:${STORE_INFO.callingPhone}`}
                   className="flex items-center gap-1.5 hover:text-nature-forest font-medium transition-colors"
@@ -362,10 +359,6 @@ export default function ItemDetailModal({
                   <Phone className="h-3.5 w-3.5 text-nature-moss" />
                   <span>Call {STORE_INFO.callingPhone}</span>
                 </a>
-
-                <span className="text-2xs text-stone-500">
-                  Response within &lt;15 mins on WhatsApp
-                </span>
               </div>
             </div>
           </div>

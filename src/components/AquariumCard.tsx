@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ShieldCheck, Droplet, MessageCircle, Layers, Armchair } from 'lucide-react';
+import { MessageCircle } from 'lucide-react';
 import { AquariumItem } from '@/types/catalog';
 import { buildWhatsAppAquariumUrl } from '@/lib/whatsapp';
 import { STORE_INFO } from '@/data/mockCatalog';
@@ -10,10 +10,10 @@ import { STORE_INFO } from '@/data/mockCatalog';
 interface AquariumCardProps {
   aquarium: AquariumItem;
   onSelect: () => void;
-  onOpenLightbox: (imageUrl: string, title: string) => void;
+  onOpenLightbox?: (imageUrl: string, title: string) => void;
 }
 
-export default function AquariumCard({ aquarium, onSelect, onOpenLightbox }: AquariumCardProps) {
+export default function AquariumCard({ aquarium, onSelect }: AquariumCardProps) {
   const [imgSrc, setImgSrc] = React.useState(aquarium.imageUrl);
 
   React.useEffect(() => {
@@ -89,75 +89,49 @@ export default function AquariumCard({ aquarium, onSelect, onOpenLightbox }: Aqu
       </button>
 
       {/* 2. Content Area */}
-      <div className="flex flex-1 flex-col justify-between p-3.5 sm:p-5">
+      <div className="flex flex-1 flex-col justify-between p-3.5 sm:p-4 space-y-3">
         <div>
-          {/* Title & Specs */}
-          <div className="mb-2">
-            <h3 className="font-display text-base sm:text-lg font-bold text-nature-forest transition-colors group-hover:text-aqua-azure">
+          {/* Title */}
+          <div className="mb-1.5">
+            <h3 className="font-display text-base font-bold text-nature-forest transition-colors group-hover:text-aqua-azure">
               {aquarium.title}
             </h3>
-            <p className="text-2xs sm:text-xs font-mono font-medium text-aqua-azure truncate">
-              {aquarium.volumeLiters} Liters • {aquarium.glassThicknessMm}mm Glass
-            </p>
           </div>
 
-          {/* Description */}
-          <p className="mb-3 text-2xs sm:text-xs text-nature-stone/75 leading-relaxed line-clamp-2">
-            {aquarium.description}
-          </p>
-
-          {/* 4 Soothing Glass & Setup Chips */}
-          <div className="grid grid-cols-2 gap-1.5 sm:gap-2 mb-3">
-            <div className="spec-chip-aqua py-1 px-1.5 sm:px-2 text-[11px] sm:text-2xs" title="Glass Thickness & Type">
-              <ShieldCheck className="h-3 w-3 shrink-0 text-aqua-azure" />
-              <span className="truncate">{aquarium.glassThicknessMm}mm {aquarium.glassType.split(' ')[0]}</span>
-            </div>
-
-            <div className="spec-chip-aqua py-1 px-1.5 sm:px-2 text-[11px] sm:text-2xs" title="Water Volume">
-              <Droplet className="h-3 w-3 shrink-0 text-cyan-600" />
-              <span className="truncate">{aquarium.volumeLiters}L Capacity</span>
-            </div>
-
-            <div className="spec-chip-aqua py-1 px-1.5 sm:px-2 text-[11px] sm:text-2xs" title="Aquascape Style">
-              <Layers className="h-3 w-3 shrink-0 text-indigo-600" />
-              <span className="truncate">{aquarium.style}</span>
-            </div>
-
-            <div className="spec-chip-aqua py-1 px-1.5 sm:px-2 text-[11px] sm:text-2xs" title="Cabinet Status">
-              <Armchair className="h-3 w-3 shrink-0 text-amber-700" />
-              <span className="truncate">
-                {aquarium.includesCabinet ? 'Cabinet Included' : 'Tank Only'}
-              </span>
-            </div>
-          </div>
+          {/* Option for view details */}
+          <button
+            type="button"
+            onClick={onSelect}
+            className="text-xs font-semibold text-sky-700 hover:text-sky-900 transition-colors cursor-pointer inline-flex items-center gap-1"
+          >
+            <span>View details &rarr;</span>
+          </button>
         </div>
 
-        {/* 3. Footer: Price & Direct WhatsApp Conversion */}
-        <div className="pt-2.5 border-t border-nature-border/50">
-          <div className="mb-2.5 flex items-baseline justify-between">
+        {/* 3. Footer: Price & Direct Inquire Conversion */}
+        <div className="pt-2 border-t border-nature-border/50">
+          <div className="mb-2 flex items-baseline justify-between">
             <div>
-              <span className="text-2xs uppercase tracking-wider text-nature-muted font-medium">Studio Handcrafted</span>
-              <p className="price-display text-nature-forest text-lg sm:text-xl font-bold">
+              <span className="text-2xs uppercase tracking-wider text-nature-muted font-medium">Price</span>
+              <p className="price-display text-nature-forest text-base sm:text-lg font-bold">
                 ₹{aquarium.price.toLocaleString('en-IN')}
               </p>
             </div>
             <span className="text-2xs text-sky-800 bg-sky-50 px-2 py-0.5 rounded-full font-semibold">
-              Leak Tested
+              {aquarium.isInStock ? 'In Stock' : 'Sold Out'}
             </span>
           </div>
 
-          {/* WhatsApp Button (Stops propagation to open WhatsApp directly) */}
+          {/* Inquire Button */}
           <a
             href={whatsAppUrl}
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="btn-whatsapp rounded-2xl py-3.5 px-4 text-sm sm:text-base font-bold shadow-md"
+            className="btn-whatsapp rounded-2xl py-2.5 px-4 text-sm font-bold shadow-xs justify-center flex items-center gap-2"
           >
             <MessageCircle className="h-4 w-4 shrink-0" />
-            <span>
-              {aquarium.isInStock ? 'Inquire on WhatsApp' : 'Request Custom Quote'}
-            </span>
+            <span>Inquire</span>
           </a>
         </div>
       </div>

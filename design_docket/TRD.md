@@ -1,9 +1,10 @@
 # Technical Requirements Document (TRD)
 
 **Project Name:** Nature House (Digital Catalog & Admin Portal)  
-**Document Version:** 2.0 (Option 1 Stack Production Blueprint)  
-**Status:** Approved for Implementation  
-**Architecture:** Next.js 14 (App Router) + Supabase (PostgreSQL, Storage, Auth) + Tailwind CSS + Framer Motion + Vercel  
+**Document Version:** v1.0 (Finalized for Production Deployment)  
+**Date:** October 19, 2026  
+**Status:** Approved & Finalized for Deployment  
+**Architecture:** Next.js 14 (App Router) + Local / Supabase PostgreSQL + Tailwind CSS + Framer Motion  
 **Hosting & Operating Cost:** **$0 / ₹0 monthly cost (100% Lifetime Free Tier)**
 
 ---

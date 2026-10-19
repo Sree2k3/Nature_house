@@ -10,7 +10,7 @@ import {
 import AdminDashboardClient from '@/components/admin/AdminDashboardClient';
 
 export const metadata = {
-  title: 'Staff Admin Console • Nature House Bangalore',
+  title: 'Staff Admin Console • Nature House Adra',
   description: 'Manage botanical nursery plants, handcrafted rimless aquariums, and model cards.',
 };
 

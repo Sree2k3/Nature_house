@@ -1,6 +1,6 @@
 import { STORE_INFO } from '@/data/mockCatalog';
 
-const DEFAULT_PHONE = STORE_INFO.whatsappPhone || '919876543210';
+const DEFAULT_PHONE = STORE_INFO.whatsappPhone || '917908340234';
 
 /**
  * Helper to build pre-formatted WhatsApp Click-to-Chat deep links.

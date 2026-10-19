@@ -11,14 +11,20 @@ const config: Config = {
       colors: {
         // ── Biophilic Nature Tokens ──────────────────────────
         nature: {
-          linen:   '#fcfbf7', // warm organic background
-          forest:  '#0f281e', // deep botanical green – headings
-          moss:    '#2d6a4f', // sage secondary – care chips, badges
-          leaf:    '#e8f5e9', // soft leaf mist – plant chip fills
-          sage:    '#52836f', // mid-tone botanical accent
-          stone:   '#1e293b', // river stone – body copy
-          border:  '#e7e5e4', // frosted hairline borders
-          muted:   '#78716c', // muted warm gray
+          linen:     '#fcfbf7', // warm organic background
+          forest:    '#075D3B', // Forest green (primary brand background & dark headings)
+          leafGreen: '#247746', // Leaf green (botanical accent & foliage variation)
+          botanical: '#247746', // Leaf green (botanical variation & foliage)
+          emerald:   '#247746', // Leaf green accent (botanical highlights & glowing accents)
+          mint:      '#A7E8CF', // soft mint (tagline & subtle highlights)
+          paleSage:  '#C6D8C8', // pale sage (decorative line art & supporting text)
+          ivory:     '#F8F7F0', // warm ivory (main heading & light surfaces)
+          moss:      '#247746', // Leaf green secondary – care chips, badges
+          leaf:      '#e8f5e9', // soft leaf mist – plant chip fills
+          sage:      '#52836f', // mid-tone botanical accent
+          stone:     '#1e293b', // river stone – body copy
+          border:    '#e7e5e4', // frosted hairline borders
+          muted:     '#78716c', // muted warm gray
         },
         // ── Aquatic / Glass Tokens ───────────────────────────
         aqua: {

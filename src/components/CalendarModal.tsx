@@ -4,13 +4,9 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import {
   X,
-  Calendar as CalendarIcon,
   ChevronLeft,
   ChevronRight,
   Clock,
-  Sparkles,
-  AlertCircle,
-  CheckCircle2,
 } from 'lucide-react';
 import {
   getMonthCalendar,
@@ -47,7 +43,7 @@ export default function CalendarModal({ isOpen, onClose, notices }: CalendarModa
       setSelectedMonth(currentMonth);
       setSelectedDayInfo(null);
     }
-  }, [isOpen]);
+  }, [isOpen, currentMonth, currentYear, years]);
 
   // Close on Escape key and lock body scroll cleanly preserving prior overflow
   useEffect(() => {
@@ -125,7 +121,7 @@ export default function CalendarModal({ isOpen, onClose, notices }: CalendarModa
                 </span>
               </div>
               <p className="text-2xs text-stone-500 mt-0.5">
-                Browse planned operating schedules, Monday maintenance care, and festival hours from {years[0]} to {years[years.length - 1]}.
+                Browse planned operating schedules, Sunday nursery rest, and festival hours from {years[0]} to {years[years.length - 1]}.
               </p>
             </div>
           </div>
@@ -300,8 +296,8 @@ export default function CalendarModal({ isOpen, onClose, notices }: CalendarModa
             </div>
             <p className="text-xs text-nature-stone">
               {selectedDayInfo.holidayDetails ||
-                (selectedDayInfo.isMonday
-                  ? 'Weekly maintenance day reserved for greenhouse plant hydration, botanical care, and custom aquarium fabrication.'
+                (selectedDayInfo.dayOfWeek === 0
+                  ? 'Weekly nursery rest and hydration day reserved for greenhouse plant care and custom aquarium fabrication.'
                   : selectedDayInfo.dayOfWeek === 6
                   ? 'Extended Saturday Studio Hours: 9:00 AM – 9:00 PM.'
                   : 'Regular Studio Hours: 9:00 AM – 8:30 PM. Walk-ins welcome!')}

@@ -25,9 +25,10 @@ export async function POST(req: NextRequest) {
     // Check bounded local rate limiting
     try {
       checkThrottle(cleanEmail);
-    } catch (throttleErr: any) {
+    } catch (throttleErr) {
+      const message = throttleErr instanceof Error ? throttleErr.message : 'Too many failed login attempts.';
       return NextResponse.json(
-        { error: throttleErr.message || 'Too many failed login attempts.' },
+        { error: message },
         { status: 429 }
       );
     }

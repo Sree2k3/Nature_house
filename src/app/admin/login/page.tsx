@@ -184,7 +184,7 @@ export default function AdminLoginPage() {
 
       {/* Subtle Copyright */}
       <div className="mx-auto text-center pb-2 text-2xs text-stone-400">
-        © {new Date().getFullYear()} Nature House Bangalore. Confidential Staff Console.
+        © {new Date().getFullYear()} Nature House Adra. Confidential Staff Console.
       </div>
     </div>
   );

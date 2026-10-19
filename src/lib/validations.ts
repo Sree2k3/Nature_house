@@ -1,8 +1,9 @@
 import { ValidationError } from './errors';
+import { StoreNotice } from './storeHours';
 
 const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
 
-export function validatePlantInput(input: any) {
+export function validatePlantInput(input: Record<string, unknown> | null | undefined) {
   if (!input || typeof input !== 'object') {
     throw new ValidationError('Invalid request body: expected JSON object');
   }
@@ -43,12 +44,13 @@ export function validatePlantInput(input: any) {
     potSize: input.potSize ? String(input.potSize).trim() : '6-inch Pot',
     difficultyLevel,
     badge: input.badge ? String(input.badge).trim() : undefined,
+    idealPlacement: input.idealPlacement ? String(input.idealPlacement).trim() : undefined,
     isInStock: input.isInStock !== undefined ? Boolean(input.isInStock) : true,
     isFeatured: Boolean(input.isFeatured),
   };
 }
 
-export function validateAquariumInput(input: any) {
+export function validateAquariumInput(input: Record<string, unknown> | null | undefined) {
   if (!input || typeof input !== 'object') {
     throw new ValidationError('Invalid request body: expected JSON object');
   }
@@ -86,12 +88,13 @@ export function validateAquariumInput(input: any) {
     style: input.style ? String(input.style).trim() : 'Rimless Nature Aquarium',
     includesCabinet: Boolean(input.includesCabinet),
     badge: input.badge ? String(input.badge).trim() : undefined,
+    idealPlacement: input.idealPlacement ? String(input.idealPlacement).trim() : undefined,
     isInStock: input.isInStock !== undefined ? Boolean(input.isInStock) : true,
     isFeatured: Boolean(input.isFeatured),
   };
 }
 
-export function validateScheduleNoticeInput(input: any) {
+export function validateScheduleNoticeInput(input: Record<string, unknown> | null | undefined) {
   if (!input || typeof input !== 'object') {
     throw new ValidationError('Invalid request body: expected JSON object');
   }
@@ -102,20 +105,24 @@ export function validateScheduleNoticeInput(input: any) {
     errors.title = 'Notice title is required.';
   }
 
-  if (!input.startDate || !DATE_REGEX.test(input.startDate)) {
+  const startDateStr = typeof input.startDate === 'string' ? input.startDate : '';
+  const endDateStr = typeof input.endDate === 'string' ? input.endDate : '';
+
+  if (!startDateStr || !DATE_REGEX.test(startDateStr)) {
     errors.startDate = 'Start date must be in YYYY-MM-DD format.';
   }
 
-  if (!input.endDate || !DATE_REGEX.test(input.endDate)) {
+  if (!endDateStr || !DATE_REGEX.test(endDateStr)) {
     errors.endDate = 'End date must be in YYYY-MM-DD format.';
   }
 
-  if (input.startDate && input.endDate && input.startDate > input.endDate) {
+  if (startDateStr && endDateStr && startDateStr > endDateStr) {
     errors.dateRange = 'Start date cannot be after end date.';
   }
 
   const validStatuses = ['Closed', 'Special Hours', 'Open Normal', 'Studio Notice'];
-  if (!validStatuses.includes(input.status)) {
+  const statusStr = typeof input.status === 'string' ? input.status : '';
+  if (!validStatuses.includes(statusStr)) {
     errors.status = `Status must be one of: ${validStatuses.join(', ')}`;
   }
 
@@ -126,9 +133,9 @@ export function validateScheduleNoticeInput(input: any) {
   return {
     id: input.id ? String(input.id) : undefined,
     title: String(input.title).trim(),
-    startDate: input.startDate,
-    endDate: input.endDate,
-    status: input.status,
+    startDate: startDateStr,
+    endDate: endDateStr,
+    status: statusStr as StoreNotice['status'],
     hours: input.hours ? String(input.hours).trim() : undefined,
     details: input.details ? String(input.details).trim() : undefined,
     reopenMessage: input.reopenMessage ? String(input.reopenMessage).trim() : undefined,

@@ -1,9 +1,11 @@
 # Database Architecture & Storage Specification
 
 **Project Name:** Nature House (Digital Catalog & Admin Portal)  
-**Database Engine:** Local PostgreSQL (Node.js `pg` Connection Pool)  
-**Media Storage Engine:** Local Content-Addressable Filesystem Store (`var/media/`)  
-**Deployment Target:** Local Development / On-Premise Single-Node Node.js  
+**Document Version:** v1.0 (Finalized for Production Deployment)  
+**Date:** October 19, 2026  
+**Status:** Approved & Finalized for Deployment  
+**Database Engine:** PostgreSQL (Node.js `pg` Connection Pool)  
+**Media Storage Engine:** Content-Addressable Filesystem Store (`var/media/`)  
 **Migration Engine:** Migration Runner (`scripts/db-migrate.mjs` tracking `schema_migrations`)  
 
 ---

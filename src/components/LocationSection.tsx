@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { MapPin, Navigation, Clock, Phone, MessageCircle, ShieldCheck, Calendar, Bell, Sparkles } from 'lucide-react';
+import { MapPin, Navigation, Clock, Phone, MessageCircle, ShieldCheck, Calendar, Sparkles } from 'lucide-react';
 import { STORE_INFO } from '@/data/mockCatalog';
 import { buildWhatsAppGeneralUrl } from '@/lib/whatsapp';
 import {
@@ -56,7 +56,7 @@ export default function LocationSection() {
               <p className="text-sm text-nature-stone leading-relaxed mb-4">
                 {STORE_INFO.addressLine1}<br />
                 {STORE_INFO.addressLine2}<br />
-                {STORE_INFO.city}, Karnataka — {STORE_INFO.pincode}
+                {STORE_INFO.city}, West Bengal — {STORE_INFO.pincode}
               </p>
               <p className="text-xs text-nature-muted flex items-center gap-1.5">
                 <ShieldCheck className="h-4 w-4 text-emerald-600 shrink-0" />
@@ -154,7 +154,7 @@ export default function LocationSection() {
                   {/* Consolidated Operating Schedule */}
                   <div className="space-y-2 text-xs text-nature-stone mb-3">
                     <div className="flex justify-between items-center py-1.5 border-b border-nature-border/40">
-                      <span className="font-semibold text-nature-forest">Tuesday – Sunday</span>
+                      <span className="font-semibold text-nature-forest">Monday – Saturday</span>
                       <span className="font-semibold text-emerald-800">9:00 AM – 8:30 PM</span>
                     </div>
                     <div className="flex justify-between items-center py-1.5 border-b border-nature-border/40">
@@ -162,8 +162,8 @@ export default function LocationSection() {
                       <span className="font-medium text-emerald-700">9:00 AM – 9:00 PM</span>
                     </div>
                     <div className="flex justify-between items-center py-1.5">
-                      <span className="font-semibold text-nature-forest">Mondays</span>
-                      <span className="font-semibold text-rose-600">Closed (Care &amp; Restocking)</span>
+                      <span className="font-semibold text-nature-forest">Sundays</span>
+                      <span className="font-semibold text-rose-600">Closed (Holiday &amp; Sanctuary Care)</span>
                     </div>
                   </div>
                 </div>
@@ -280,7 +280,7 @@ export default function LocationSection() {
                 Studio Consultations
               </h3>
               <p className="text-sm text-nature-stone leading-relaxed mb-4">
-                Share photos of your space, lighting conditions, or custom aquarium concepts directly with our Bangalore master botanists and aquascapers.
+                Share photos of your space, lighting conditions, or custom aquarium concepts directly with our Adra master botanists and aquascapers.
               </p>
               <div className="rounded-xl bg-nature-leaf/50 p-3 text-xs text-nature-moss">
                 💬 <strong>Personalized guidance:</strong> Plant pairings, tank dimension planning, and live stock inquiries.

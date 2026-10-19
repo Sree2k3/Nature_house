@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Save, Loader2, Image as ImageIcon, UploadCloud, Camera, Trash2, CheckCircle2 } from 'lucide-react';
+import { X, Save, Loader2, UploadCloud, Camera, Trash2, CheckCircle2 } from 'lucide-react';
 import { AquariumItem } from '@/types/catalog';
 
 interface AquariumFormModalProps {
@@ -40,6 +40,7 @@ export default function AquariumFormModal({
   const [isOptimizing, setIsOptimizing] = useState(false);
 
   const [includesCabinet, setIncludesCabinet] = useState(false);
+  const [idealPlacement, setIdealPlacement] = useState('');
   const [badge, setBadge] = useState('');
   const [description, setDescription] = useState('');
   const [isInStock, setIsInStock] = useState(true);
@@ -60,6 +61,7 @@ export default function AquariumFormModal({
       setImageFileSize(null);
       setImageError(null);
       setIncludesCabinet(aquarium.includesCabinet || false);
+      setIdealPlacement(aquarium.idealPlacement || '');
       setBadge(aquarium.badge || '');
       setDescription(aquarium.description || '');
       setIsInStock(aquarium.isInStock);
@@ -79,6 +81,7 @@ export default function AquariumFormModal({
       setImageFileSize(null);
       setImageError(null);
       setIncludesCabinet(false);
+      setIdealPlacement('Living room focal wall, executive study, away from direct sunlight');
       setBadge('💎 Handcrafted');
       setDescription('Handcrafted ultra-clear low-iron glass tank assembled with German clear silicone seams and 45° diamond-beveled joints.');
       setIsInStock(true);
@@ -241,6 +244,7 @@ export default function AquariumFormModal({
       price: parseFloat(price) || 0,
       imageUrl: finalImageUrl,
       includesCabinet,
+      idealPlacement: idealPlacement.trim() || undefined,
       badge: badge.trim() || undefined,
       description: description.trim(),
       isInStock,
@@ -486,6 +490,20 @@ export default function AquariumFormModal({
             {imageError && (
               <p className="mt-1.5 text-2xs text-rose-600 font-medium">{imageError}</p>
             )}
+          </div>
+
+          {/* Row 4.5: Ideal Room Position / Placement */}
+          <div>
+            <label className="block text-2xs font-bold uppercase tracking-wider text-nature-stone mb-1.5">
+              Ideal Room Position (Displayed in Modal Card)
+            </label>
+            <input
+              type="text"
+              value={idealPlacement}
+              onChange={(e) => setIdealPlacement(e.target.value)}
+              placeholder="e.g. Living room focal wall, executive study, away from direct sunlight"
+              className="w-full rounded-xl border border-stone-300 px-3.5 py-2 text-xs text-stone-800 focus:border-aqua-azure focus:ring-1 focus:ring-aqua-azure"
+            />
           </div>
 
           {/* Row 5: Badge, Cabinet & Stock Toggles */}

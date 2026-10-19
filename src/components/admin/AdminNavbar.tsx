@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { LogOut, ExternalLink, Sparkles, Layers, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { LogOut, ExternalLink } from 'lucide-react';
 
 interface AdminNavbarProps {
   totalPlants?: number;

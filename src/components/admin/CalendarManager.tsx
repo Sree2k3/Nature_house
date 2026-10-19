@@ -9,19 +9,16 @@ import {
   Trash2,
   Edit2,
   Sparkles,
-  AlertCircle,
   CheckCircle2,
   ChevronLeft,
   ChevronRight,
   X,
-  ShieldAlert,
   CalendarRange,
 } from 'lucide-react';
 import {
   getMonthCalendar,
   get6YearsRange,
   MONTH_NAMES,
-  CalendarDay,
   StoreNotice,
   STORE_NOTICES,
   CURRENT_STUDIO_NOTICE,
@@ -184,7 +181,7 @@ export default function CalendarManager({ onShowToast }: CalendarManagerProps) {
     setFormStatus(notice.status);
     setFormHours(notice.hours || (notice.status === 'Closed' ? 'Closed for Walk-ins' : '10:00 AM – 4:00 PM'));
     setFormDetails(notice.details);
-    setFormType((notice.type as any) || 'holiday');
+    setFormType((notice.type === 'broadcast' ? 'holiday' : notice.type) || 'holiday');
     setFormReopenMessage(
       notice.reopenMessage ||
       computeReopenMessage(notice.endDate || notice.startDate || notice.dateOrPeriod, notices)
@@ -588,7 +585,7 @@ export default function CalendarManager({ onShowToast }: CalendarManagerProps) {
                   <span className="h-2 w-2 rounded-full bg-emerald-500" /> Open
                 </span>
                 <span className="flex items-center gap-1">
-                  <span className="h-2 w-2 rounded-full bg-stone-300" /> Monday Care
+                  <span className="h-2 w-2 rounded-full bg-stone-300" /> Sunday Rest
                 </span>
                 <span className="flex items-center gap-1">
                   <span className="h-2 w-2 rounded-full bg-rose-500" /> Closed
@@ -941,7 +938,7 @@ export default function CalendarManager({ onShowToast }: CalendarManagerProps) {
                       <select
                         value={formStatus}
                         onChange={(e) => {
-                          const val = e.target.value as any;
+                          const val = e.target.value as StoreNotice['status'];
                           setFormStatus(val);
                           if (val === 'Closed') setFormHours('Closed for Walk-ins');
                           else if (val === 'Special Hours') setFormHours('10:00 AM – 4:00 PM');
@@ -993,7 +990,7 @@ export default function CalendarManager({ onShowToast }: CalendarManagerProps) {
                       <select
                         value={formStatus}
                         onChange={(e) => {
-                          const val = e.target.value as any;
+                          const val = e.target.value as StoreNotice['status'];
                           setFormStatus(val);
                           if (val === 'Closed') setFormHours('Closed for Walk-ins');
                           else if (val === 'Special Hours') setFormHours('10:00 AM – 4:00 PM');

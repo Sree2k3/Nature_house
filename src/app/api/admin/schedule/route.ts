@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
         dateOrPeriod: formattedPeriod,
         startDate: validated.startDate,
         endDate: validated.endDate,
-        status: validated.status as any,
+        status: validated.status,
         hours: validated.hours || (validated.status === 'Closed' ? 'Closed for Walk-ins' : 'Special Hours'),
         details: validated.details || `${validated.title} closure notice.`,
         type: 'holiday',

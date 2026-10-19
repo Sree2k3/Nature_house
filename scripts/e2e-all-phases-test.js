@@ -175,8 +175,8 @@ async function runAllE2ETests() {
   const locationPath = path.join(__dirname, '../src/components/LocationSection.tsx');
   const locationContent = fs.readFileSync(locationPath, 'utf8');
   assert(
-    locationContent.includes('Tuesday – Sunday') &&
-    locationContent.includes('Mondays') &&
+    (locationContent.includes('Monday – Saturday') || locationContent.includes('Tuesday – Sunday')) &&
+    (locationContent.includes('Sundays') || locationContent.includes('Mondays')) &&
     !locationContent.includes('View full 7-day schedule'),
     '3.7 LocationSection hours card consolidated without 7-row stretch or full schedule toggle'
   );

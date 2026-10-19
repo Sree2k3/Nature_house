@@ -6,19 +6,11 @@ import {
   Search,
   Edit2,
   Trash2,
-  CheckCircle2,
-  AlertCircle,
   Sparkles,
   Layers,
-  ArrowUpDown,
-  Maximize2,
-  Eye,
   Calendar,
-  Clock,
-  Bell,
 } from 'lucide-react';
 import { PlantItem, AquariumItem } from '@/types/catalog';
-import { STORE_NOTICES, CURRENT_STUDIO_NOTICE, getCurrentMonthCalendar } from '@/lib/storeHours';
 import AdminNavbar from './AdminNavbar';
 import PlantFormModal from './PlantFormModal';
 import AquariumFormModal from './AquariumFormModal';
@@ -43,7 +35,6 @@ export default function AdminDashboardClient({
   const [activeTab, setActiveTab] = useState<'plants' | 'aquariums' | 'calendar'>('plants');
   const [searchQuery, setSearchQuery] = useState('');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const monthCalendar = getCurrentMonthCalendar();
 
   useEffect(() => {
     setPlants(initialPlants);

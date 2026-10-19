@@ -33,6 +33,7 @@ export interface AquariumItem {
   style: string;
   includesCabinet: boolean;
   badge?: string;
+  idealPlacement?: string;
   clarityRating?: string;
   aquascapingTip?: string;
   isInStock: boolean;
@@ -51,5 +52,5 @@ export interface StoreInfo {
   googleMapsUrl: string;
   openTime: string; // e.g. "09:00"
   closeTime: string; // e.g. "20:30"
-  openDays: string; // e.g. "Tuesday - Sunday (Closed Mondays)"
+  openDays: string; // e.g. "Monday - Saturday (Closed Sundays)"
 }

@@ -8,11 +8,11 @@ import './globals.css'
 // ── METADATA ──────────────────────────────────────────────────────────────
 export const metadata: Metadata = {
   title: {
-    default: 'Nature House — Living Greenery & Handcrafted Aquariums',
+    default: 'Nature House — A Perfect Place for Nature Lovers',
     template: '%s | Nature House',
   },
   description:
-    'Explore our curated collection of indoor plants, exotic foliage, and handcrafted opti-white rimless aquariums. Visit us or inquire directly on WhatsApp.',
+    'A perfect place for nature lovers... Explore our curated collection of indoor botanical plants and handcrafted opti-white rimless aquariums in Ashram Para, Adra, West Bengal. Inquire directly on WhatsApp.',
   keywords: [
     'plant nursery',
     'indoor plants',
@@ -20,8 +20,8 @@ export const metadata: Metadata = {
     'rimless glass tanks',
     'opti-white aquarium',
     'aquascape',
-    'Nature House',
-    'plant shop Bangalore',
+    'plant shop Adra',
+    'plant nursery West Bengal',
   ],
   authors: [{ name: 'Nature House' }],
   creator: 'Nature House',
@@ -29,14 +29,14 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_IN',
     siteName: 'Nature House',
-    title: 'Nature House — Living Greenery & Handcrafted Aquariums',
+    title: 'Nature House — A Perfect Place for Nature Lovers',
     description:
-      'A curated digital catalog of botanical plants and handcrafted rimless aquariums. Inquire directly on WhatsApp.',
+      'A perfect place for nature lovers... Curated botanical plants and handcrafted rimless aquariums in Adra, West Bengal.',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Nature House',
-    description: 'Living Greenery & Handcrafted Aquariums — Browse & Inquire on WhatsApp',
+    description: 'A perfect place for nature lovers — Curated Plants & Handcrafted Aquariums',
   },
   robots: {
     index: true,

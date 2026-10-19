@@ -1,8 +1,9 @@
 # Product Requirements Document (PRD)
 
 **Project Name:** Nature House — Plant Nursery & Handcrafted Aquariums  
-**Document Version:** 1.0  
-**Status:** Approved  
+**Document Version:** v1.0 (Finalized for Production Deployment)  
+**Date:** October 19, 2026  
+**Status:** Approved & Finalized for Deployment  
 **Scale & Load Target:** 100–200 concurrent active visitors on the page (Lean & High-Performance Architecture)  
 **Cost Target:** ₹0 / $0 monthly operational cost (100% Lifetime Free Tier)  
 

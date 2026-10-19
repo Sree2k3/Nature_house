@@ -2,6 +2,10 @@
 
 Use this exact prompt in **Lovable.dev** (or **v0.dev** / **Cursor**) to build the complete **Nature House** digital showcase and catalog with high-fidelity biophilic styling, 60fps spring transitions, 3 vs 4 card layout switching, and click-to-enlarge modal inspection.
 
+**Document Version:** v1.0 (Finalized for Production Deployment)  
+**Date:** October 19, 2026  
+**Status:** Approved & Finalized for Deployment  
+
 ---
 
 ```markdown

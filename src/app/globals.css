@@ -19,8 +19,14 @@
 :root {
   /* Core palette */
   --color-linen:    #fcfbf7;
-  --color-forest:   #0f281e;
-  --color-moss:     #2d6a4f;
+  --color-forest:   #075D3B;
+  --color-leafgreen:#247746;
+  --color-botanical:#247746;
+  --color-emerald:  #247746;
+  --color-mint:     #A7E8CF;
+  --color-palesage: #C6D8C8;
+  --color-ivory:    #F8F7F0;
+  --color-moss:     #247746;
   --color-sage:     #52836f;
   --color-stone:    #1e293b;
   --color-muted:    #78716c;

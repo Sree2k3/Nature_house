@@ -25,6 +25,20 @@ export const WEEKLY_SCHEDULE: DailySchedule[] = [
     dayName: 'Sunday',
     shortDay: 'Sun',
     dayIndex: 0,
+    isOpenDay: false,
+    openHour: 0,
+    openMinute: 0,
+    closeHour: 0,
+    closeMinute: 0,
+    openTimeStr: '',
+    closeTimeStr: '',
+    hoursDisplay: 'Closed on Sundays',
+    note: 'Weekly nursery rest & greenhouse hydration day',
+  },
+  {
+    dayName: 'Monday',
+    shortDay: 'Mon',
+    dayIndex: 1,
     isOpenDay: true,
     openHour: 9,
     openMinute: 0,
@@ -33,20 +47,6 @@ export const WEEKLY_SCHEDULE: DailySchedule[] = [
     openTimeStr: '9:00 AM',
     closeTimeStr: '8:30 PM',
     hoursDisplay: '9:00 AM – 8:30 PM',
-  },
-  {
-    dayName: 'Monday',
-    shortDay: 'Mon',
-    dayIndex: 1,
-    isOpenDay: false,
-    openHour: 0,
-    openMinute: 0,
-    closeHour: 0,
-    closeMinute: 0,
-    openTimeStr: '',
-    closeTimeStr: '',
-    hoursDisplay: 'Closed for Maintenance',
-    note: 'Greenhouse plant care & tank fabrication day',
   },
   {
     dayName: 'Tuesday',
@@ -209,16 +209,16 @@ export function getStoreStatus(
     };
   }
 
-  // If today is a closed day (e.g. Monday)
+  // If today is a closed day (e.g. Sunday)
   if (!todaySchedule.isOpenDay) {
     const nextOpenText = tomorrowSchedule.isOpenDay
       ? `Opens Tomorrow (${tomorrowSchedule.dayName}) at ${tomorrowSchedule.openTimeStr}`
-      : 'Opens Tuesday at 9:00 AM';
+      : 'Opens Monday at 9:00 AM';
 
     return {
       isOpen: false,
       todayDayName: todaySchedule.dayName,
-      todayHoursDisplay: 'Closed Today (Maintenance)',
+      todayHoursDisplay: 'Closed on Sundays',
       tomorrowDayName: tomorrowSchedule.dayName,
       tomorrowHoursDisplay: tomorrowSchedule.hoursDisplay,
       primaryMessage: `${todaySchedule.dayName}: Closed Today`,
@@ -267,7 +267,7 @@ export function getStoreStatus(
   // Case 3: Today was an open day, but it's currently night after closing time
   const tomorrowOpenText = tomorrowSchedule.isOpenDay
     ? `Opens Tomorrow (${tomorrowSchedule.dayName}) at ${tomorrowSchedule.openTimeStr}`
-    : `Closed Tomorrow (${tomorrowSchedule.dayName}) • Opens Tuesday at 9:00 AM`;
+    : `Closed Tomorrow (${tomorrowSchedule.dayName}) • Opens Monday at 9:00 AM`;
 
   return {
     isOpen: false,
@@ -301,39 +301,39 @@ export interface StoreNotice {
 
 export const STORE_NOTICES: StoreNotice[] = [
   {
-    id: 'mon-care',
+    id: 'sun-care',
     type: 'maintenance',
-    title: 'Weekly Monday Sanctuary Restocking',
-    dateOrPeriod: 'Every Monday',
+    title: 'Weekly Sunday Sanctuary Maintenance',
+    dateOrPeriod: 'Every Sunday',
     status: 'Closed',
-    hours: 'Closed for Walk-ins',
+    hours: 'Closed on Sundays',
     details: 'Reserved for deep greenhouse plant hydration, botanical pruning, and bespoke glass aquarium fabrication.',
     badgeClass: 'text-rose-800 bg-rose-50 border-rose-200',
   },
   {
-    id: 'diwali-2026',
+    id: 'durga-puja-2026',
     type: 'festival',
-    title: 'Deepavali (Festival of Lights)',
-    dateOrPeriod: 'Oct 31 – Nov 1, 2026',
+    title: 'Durga Puja (Maha Saptami – Dashami)',
+    dateOrPeriod: 'Oct 19 – Oct 23, 2026',
     status: 'Special Hours',
     hours: '10:00 AM – 4:00 PM',
-    details: 'Festive display gallery open. Special handcrafted gifting terrariums and mini aquascapes available.',
+    details: 'Grand festive celebration across West Bengal. Studio open for festive plant gifting and artisanal aquariums.',
     badgeClass: 'text-amber-800 bg-amber-50 border-amber-200',
   },
   {
-    id: 'rajyotsava-2026',
-    type: 'holiday',
-    title: 'Kannada Rajyotsava',
-    dateOrPeriod: 'Nov 1, 2026',
+    id: 'kali-puja-2026',
+    type: 'festival',
+    title: 'Kali Puja & Deepavali',
+    dateOrPeriod: 'Oct 31 – Nov 1, 2026',
     status: 'Special Hours',
-    hours: '10:00 AM – 5:00 PM',
-    details: 'Celebrating Karnataka heritage with curated indigenous Western Ghats freshwater mosses & tropical ferns.',
-    badgeClass: 'text-emerald-800 bg-emerald-50 border-emerald-200',
+    hours: '10:00 AM – 4:00 PM',
+    details: 'Festival of lights. Handcrafted gifting terrariums, auspicious money plants, and mini aquascapes available.',
+    badgeClass: 'text-amber-800 bg-amber-50 border-amber-200',
   },
   {
     id: 'christmas-2026',
     type: 'festival',
-    title: 'Christmas & Winter Solstice',
+    title: 'Christmas Day',
     dateOrPeriod: 'Dec 25, 2026',
     status: 'Open Normal',
     hours: '9:00 AM – 8:30 PM',
@@ -350,12 +350,52 @@ export const STORE_NOTICES: StoreNotice[] = [
     details: 'Begin the new year with living greenery. Complementary plant potting guidance for all studio visitors.',
     badgeClass: 'text-sky-800 bg-sky-50 border-sky-200',
   },
+  {
+    id: 'republic-day-2027',
+    type: 'holiday',
+    title: 'Republic Day',
+    dateOrPeriod: 'Jan 26, 2027',
+    status: 'Special Hours',
+    hours: '11:00 AM – 5:00 PM',
+    details: 'National celebration. Studio open for patriotic lotus and aquatic arrangements.',
+    badgeClass: 'text-emerald-800 bg-emerald-50 border-emerald-200',
+  },
+  {
+    id: 'poila-boishakh-2027',
+    type: 'festival',
+    title: 'Poila Boishakh (Bengali New Year)',
+    dateOrPeriod: 'Apr 15, 2027',
+    status: 'Special Hours',
+    hours: '10:00 AM – 5:00 PM',
+    details: 'Subho Noboborsho! Welcoming new beginnings with auspicious foliage, lucky money plants, and tabletop nano aquascapes.',
+    badgeClass: 'text-emerald-800 bg-emerald-50 border-emerald-200',
+  },
+  {
+    id: 'independence-day-2027',
+    type: 'holiday',
+    title: 'Independence Day',
+    dateOrPeriod: 'Aug 15, 2027',
+    status: 'Closed',
+    hours: 'Closed for Walk-ins',
+    details: 'National holiday observance. Digital botanical consultation available online.',
+    badgeClass: 'text-rose-800 bg-rose-50 border-rose-200',
+  },
+  {
+    id: 'gandhi-jayanti-2027',
+    type: 'holiday',
+    title: 'Mahatma Gandhi Jayanti',
+    dateOrPeriod: 'Oct 2, 2027',
+    status: 'Closed',
+    hours: 'Closed for Walk-ins',
+    details: 'National holiday observance in honor of the Father of the Nation.',
+    badgeClass: 'text-rose-800 bg-rose-50 border-rose-200',
+  },
 ];
 
 export const CURRENT_STUDIO_NOTICE = {
   headline: 'Studio Availability & Live Broadcast',
   message:
-    'Full botanical studio & aquascaping showroom are open Tuesday to Sunday (9:00 AM – 8:30 PM). Walk-ins welcome without prior booking. Mondays are dedicated to nursery care and tank assembly.',
+    'Full botanical studio & aquascaping showroom are open Monday to Saturday (9:00 AM – 8:30 PM). Walk-ins welcome without prior booking. Sundays are dedicated to weekly nursery rest and tank assembly.',
   updatedAt: 'October 2026',
   availabilityStatus: 'Open for Walk-ins & Consultations',
 };
@@ -414,8 +454,8 @@ export function computeReopenMessage(endDateStr: string, customNotices?: StoreNo
     nextDate.setDate(nextDate.getDate() + i);
 
     const dow = nextDate.getDay();
-    // Monday is weekly sanctuary care
-    if (dow === 1) continue;
+    // Sunday is weekly nursery rest & maintenance
+    if (dow === 0) continue;
 
     const nextDateStr = `${nextDate.getFullYear()}-${String(nextDate.getMonth() + 1).padStart(2, '0')}-${String(nextDate.getDate()).padStart(2, '0')}`;
     const nextDayShortMonth = MONTH_NAMES[nextDate.getMonth()].slice(0, 3);
@@ -446,7 +486,7 @@ export function computeReopenMessage(endDateStr: string, customNotices?: StoreNo
     return `The store is closed and will open after this day on ${reopenDayName}, ${reopenMonthName} ${nextDate.getDate()} at 9:00 AM.`;
   }
 
-  return 'The store is closed and will open after this day on Tuesday at 9:00 AM.';
+  return 'The store is closed and will open after this day on Monday at 9:00 AM.';
 }
 
 /**
@@ -483,7 +523,7 @@ export function getMonthCalendar(
     const curDate = new Date(targetYear, targetMonth, d);
     const dow = curDate.getDay();
     const isToday = isTargetMonthCurrent && d === todayDate;
-    const isMon = dow === 1;
+    const isSun = dow === 0;
     const dateStr = `${targetYear}-${String(targetMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
 
     // Match against active notices/holidays (support single day & date ranges)
@@ -501,8 +541,8 @@ export function getMonthCalendar(
       return hasM && hasD && (hasY || !/\b20\d\d\b/.test(n.dateOrPeriod));
     });
 
-    let isOpen = !isMon;
-    let statusLabel = isToday ? 'Today' : isMon ? 'Closed (Mon)' : 'Open';
+    let isOpen = !isSun;
+    let statusLabel = isToday ? 'Today' : isSun ? 'Closed (Sun)' : 'Open';
     let isHoliday = false;
     let reopenMsg: string | undefined;
 
@@ -520,7 +560,7 @@ export function getMonthCalendar(
       } else {
         statusLabel = matchingNotice.title;
       }
-    } else if (isMon) {
+    } else if (isSun) {
       reopenMsg = computeReopenMessage(dateStr, notices);
     }
 
@@ -531,7 +571,7 @@ export function getMonthCalendar(
       isOpen,
       statusLabel,
       isToday,
-      isMonday: isMon,
+      isMonday: isSun,
       isHoliday,
       holidayTitle: matchingNotice?.title,
       holidayStatus: matchingNotice?.status,

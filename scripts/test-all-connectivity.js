@@ -134,24 +134,24 @@ async function runConnectivityAudit() {
   // Verify computeReopenMessage
   assert(storeHoursFile.includes('computeReopenMessage'), '3.3 Reopening announcement engine (computeReopenMessage) defined');
 
-  // Simulation: Test that if store is closed on a Sunday (e.g. 2026-10-25), it skips Monday care and reopens Tuesday
+  // Simulation: Test that if store is closed on a Saturday (e.g. 2026-10-24), it skips Sunday rest and reopens Monday
   function simReopenMessage(endDateStr) {
     const [y, m, d] = endDateStr.split('-').map(Number);
     const target = new Date(y, m - 1, d);
     for (let i = 1; i <= 14; i++) {
       const next = new Date(target);
       next.setDate(next.getDate() + i);
-      if (next.getDay() === 1) continue; // Skip Monday maintenance
+      if (next.getDay() === 0) continue; // Skip Sunday rest
       const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
       const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
       return `The store is closed and will open after this day on ${dayNames[next.getDay()]}, ${monthNames[next.getMonth()]} ${next.getDate()} at 9:00 AM.`;
     }
   }
 
-  const testReopen = simReopenMessage('2026-10-25'); // Sunday
+  const testReopen = simReopenMessage('2026-10-24'); // Saturday
   assert(
-    testReopen.includes('Tuesday') && testReopen.includes('9:00 AM'),
-    `3.4 Skips Monday maintenance and announces reopening on Tuesday ("${testReopen}")`
+    testReopen.includes('Monday') && testReopen.includes('9:00 AM'),
+    `3.4 Skips Sunday rest and announces reopening on Monday ("${testReopen}")`
   );
 
   // ─────────────────────────────────────────────────────────────
@@ -172,8 +172,8 @@ async function runConnectivityAudit() {
   console.log('\n--- 5. OUTBOUND LINKS & EXTERNAL INTEGRATIONS CONNECTIVITY ---');
 
   const mockCatalog = fs.readFileSync(path.join(__dirname, '../src/data/mockCatalog.ts'), 'utf8');
-  assert(mockCatalog.includes('919876543210'), '5.1 Studio WhatsApp phone (+91 9876543210) verified');
-  assert(mockCatalog.includes('maps.google.com'), '5.2 Turn-by-Turn Google Maps destination URL verified');
+  assert(mockCatalog.includes('7908340234'), '5.1 Studio WhatsApp phone (+91 7908340234) verified');
+  assert(mockCatalog.includes('maps.app.goo.gl') || mockCatalog.includes('maps.google.com'), '5.2 Turn-by-Turn Google Maps destination URL verified');
 
   const whatsappLib = fs.readFileSync(path.join(__dirname, '../src/lib/whatsapp.ts'), 'utf8');
   assert(whatsappLib.includes('https://wa.me/'), '5.3 WhatsApp deep-linking endpoint (https://wa.me/) verified');
@@ -185,9 +185,9 @@ async function runConnectivityAudit() {
     const text = encodeURIComponent(`Hello Nature House! I am interested in ${title} (₹${price}).`);
     return `https://wa.me/${phone}?text=${text}`;
   }
-  const sampleUrl = testPlantUrl('919876543210', 'Monstera Deliciosa', 1450);
+  const sampleUrl = testPlantUrl('917908340234', 'Monstera Deliciosa', 1450);
   assert(
-    sampleUrl.startsWith('https://wa.me/919876543210?text=') && sampleUrl.includes('Monstera'),
+    sampleUrl.startsWith('https://wa.me/917908340234?text=') && sampleUrl.includes('Monstera'),
     '5.6 Outbound WhatsApp pre-formatted URL encoding verified'
   );
 

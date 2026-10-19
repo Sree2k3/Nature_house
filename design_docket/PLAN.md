@@ -1,8 +1,10 @@
 # Comprehensive Project Plan: Nature House Digital Showcase & Admin Portal
 
 **Project Name:** Nature House (Plant Nursery & Handcrafted Aquariums)  
-**Document Version:** 7.0 (Production Blueprint — Option 1 Stack Confirmed)  
-**Selected Technology Stack:** Next.js 14 (App Router) + Supabase (PostgreSQL, Auth, Storage) + Tailwind CSS + Framer Motion + Vercel  
+**Document Version:** v1.0 (Finalized for Production Deployment)  
+**Date:** October 19, 2026  
+**Status:** Approved & Finalized for Deployment  
+**Selected Technology Stack:** Next.js 14 (App Router) + PostgreSQL (Local / Supabase) + Tailwind CSS + Framer Motion  
 **Hosting & Operating Cost:** **$0 / ₹0 monthly lifetime free tier**  
 **Core Directive:** When hosted, the public experience is strictly a **pure, soothing, interactive digital catalog** (Plants & Aquariums) with instant WhatsApp inquiries and physical nursery location. All catalog management (phone photo uploads, card editing, stock toggles, and cascade deletions) is handled through a private, mobile-optimized admin dashboard (`/admin`).
 

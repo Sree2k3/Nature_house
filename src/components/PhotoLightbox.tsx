@@ -33,20 +33,20 @@ export default function PhotoLightbox({
 
   // Keyboard navigation (Esc to close, + / - to zoom)
   useEffect(() => {
+    if (!isOpen) return;
+
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') {
+        e.stopPropagation();
+        onClose();
+      }
       if (e.key === '+' || e.key === '=') setZoomScale((s) => Math.min(s + 0.25, 2.5));
       if (e.key === '-' || e.key === '_') setZoomScale((s) => Math.max(s - 0.25, 1));
     };
 
-    const prevOverflow = document.body.style.overflow;
-    if (isOpen) {
-      window.addEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = 'hidden';
-    }
+    window.addEventListener('keydown', handleKeyDown);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = prevOverflow;
     };
   }, [isOpen, onClose]);
 
@@ -61,7 +61,7 @@ export default function PhotoLightbox({
           role="dialog"
           aria-modal="true"
           aria-label={title || 'High-Resolution Inspection'}
-          className="fixed inset-0 z-50 flex flex-col items-center justify-between bg-black/92 p-4 backdrop-blur-xl"
+          className="fixed inset-0 z-[60] flex flex-col items-center justify-between bg-black/92 p-4 backdrop-blur-xl"
           onClick={onClose}
         >
           {/* Top Bar: Title, Zoom Controls & Close Button */}

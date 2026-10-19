@@ -55,22 +55,14 @@ interface DbAquariumRow {
 const RUNTIME_CATALOG_FILE = path.join(process.cwd(), 'src/data/runtimeCatalog.json');
 
 let cachedDiskCatalog: { plants: PlantItem[]; aquariums: AquariumItem[] } | null = null;
-let lastDiskReadTime = 0;
 
 function loadPersistedCatalog(): { plants: PlantItem[]; aquariums: AquariumItem[] } | null {
-  const now = Date.now();
-  // Return cached copy if read within the last 15 seconds to prevent blocking disk I/O on every request
-  if (cachedDiskCatalog && now - lastDiskReadTime < 15000) {
-    return cachedDiskCatalog;
-  }
-
   try {
     if (fs.existsSync(RUNTIME_CATALOG_FILE)) {
       const content = fs.readFileSync(RUNTIME_CATALOG_FILE, 'utf8');
       const parsed = JSON.parse(content);
       if (Array.isArray(parsed.plants) && Array.isArray(parsed.aquariums)) {
         cachedDiskCatalog = parsed;
-        lastDiskReadTime = now;
         return parsed;
       }
     }
@@ -82,7 +74,6 @@ function loadPersistedCatalog(): { plants: PlantItem[]; aquariums: AquariumItem[
 
 function persistCatalog(plants: PlantItem[], aquariums: AquariumItem[]) {
   cachedDiskCatalog = { plants, aquariums };
-  lastDiskReadTime = Date.now();
 
   try {
     const dir = path.dirname(RUNTIME_CATALOG_FILE);
@@ -117,9 +108,16 @@ if (!globalStore.__natureHouseAquariums) {
 }
 
 /**
- * Fetch all plants from PostgreSQL with graceful fallback to runtime store.
+ * Fetch all plants with instant disk sync and DB fallback.
  */
 export async function getPlants(): Promise<PlantItem[]> {
+  // 1. Prioritize persisted runtime catalog (ensures manual updates and admin edits reflect immediately)
+  const disk = loadPersistedCatalog();
+  if (disk?.plants && disk.plants.length > 0) {
+    globalStore.__natureHousePlants = disk.plants;
+    return disk.plants;
+  }
+
   let dbPlants: PlantItem[] = [];
   try {
     const res = await query<DbPlantRow>(`
@@ -170,10 +168,7 @@ export async function getPlants(): Promise<PlantItem[]> {
     return dbPlants;
   }
 
-  // Graceful fallback to disk/memory only if database is offline or not yet seeded
-  const fresh = loadPersistedCatalog();
-  const fallbackPlants = fresh?.plants || globalStore.__natureHousePlants || MOCK_PLANTS;
-  return fallbackPlants;
+  return globalStore.__natureHousePlants || MOCK_PLANTS;
 }
 
 /**
@@ -351,9 +346,16 @@ export async function deletePlant(id: string): Promise<boolean> {
 }
 
 /**
- * Fetch all handcrafted aquariums from PostgreSQL with graceful fallback to runtime store.
+ * Fetch all handcrafted aquariums with instant disk sync and DB fallback.
  */
 export async function getAquariums(): Promise<AquariumItem[]> {
+  // 1. Prioritize persisted runtime catalog (ensures manual updates and admin edits reflect immediately)
+  const disk = loadPersistedCatalog();
+  if (disk?.aquariums && disk.aquariums.length > 0) {
+    globalStore.__natureHouseAquariums = disk.aquariums;
+    return disk.aquariums;
+  }
+
   let dbAquariums: AquariumItem[] = [];
   try {
     const res = await query<DbAquariumRow>(`
@@ -406,10 +408,7 @@ export async function getAquariums(): Promise<AquariumItem[]> {
     return dbAquariums;
   }
 
-  // Graceful fallback to disk/memory only if database is offline or not yet seeded
-  const fresh = loadPersistedCatalog();
-  const fallbackAquariums = fresh?.aquariums || globalStore.__natureHouseAquariums || MOCK_AQUARIUMS;
-  return fallbackAquariums;
+  return globalStore.__natureHouseAquariums || MOCK_AQUARIUMS;
 }
 
 /**

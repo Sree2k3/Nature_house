@@ -58,7 +58,7 @@ export default function GlobalError({ error, reset }: ErrorProps) {
         </div>
 
         <p className="text-2xs text-stone-400">
-          Nature House Bangalore • Artisanal Botanicals & Aquascapes
+          Nature House Adra • Artisanal Botanicals & Aquascapes
         </p>
       </div>
     </div>
